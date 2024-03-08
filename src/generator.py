@@ -19,6 +19,7 @@ Code Snippet:"""
 
 prompt = PromptTemplate(template=template, input_variables=["description"])
 
+
 def generate_code(query: str, model_name: str = "gpt-3.5-turbo") -> str:
     """
     Generate code snippet using the LLMChain.
@@ -29,9 +30,9 @@ def generate_code(query: str, model_name: str = "gpt-3.5-turbo") -> str:
     - code_snippet: str: The generated code snippet.
     """
     # Initialize the LLMChain
-    llm = ChatOpenAI(model_name = model_name)
+    llm = ChatOpenAI(model_name=model_name)
     llm_chain = LLMChain(prompt=prompt, llm=llm)
-    
+
     # Generate code snippet using the LLMChain
     code_snippet = llm_chain.run(query)
     return code_snippet
