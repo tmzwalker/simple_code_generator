@@ -1,0 +1,13 @@
+# vscode and python cache
+*.venv*
+*__pycache__
+*.vscode*
+
+# Pants workspace files
+/.pants.d/
+/dist
+/.pids
+/.pants.workdir.file_lock*
+
+# Mics 
+*.DS_Store

@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "code-generation-web-interface"
+version = "0.1.0"
+description = "A web interface for code generation using FastAPI and Langchain"
+authors = ["Tommy Gunawan <tomgun132@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+fastapi = "0.110.0"
+Jinja2 = "3.1.3"
+uvicorn = "0.27.1"
+langchain = "0.1.11"
+openai = "1.13.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Code Generation Web Interface</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"], textarea, select {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 5px 10px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Code Generation Web Interface</h1>
+    
+    <form action="/generate" method="post">
+        <label for="description">Problem Description:</label>
+        <textarea name="description" rows="5" required></textarea>
+        
+        <label for="model">Select LLM Model:</label>
+        <select name="model">
+            <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
+            <option value="gpt-4">gpt-4</option>
+        </select>
+        
+        <button type="submit">Generate Code</button>
+    </form>
+    
+    {% if code_snippet %}
+    <h2>Generated Code Snippet:</h2>
+    <pre>{{ code_snippet }}</pre>
+    
+    <form action="/feedback" method="post">
+        <input type="hidden" name="description" value="{{ description }}">
+        <input type="hidden" name="code_snippet" value="{{ code_snippet }}">
+        
+        <label for="feedback">Feedback:</label>
+        <input type="text" name="feedback" required>
+        
+        <button type="submit" name="rating" value="good">Good</button>
+        <button type="submit" name="rating" value="bad">Bad</button>
+    </form>
+    {% endif %}
+    
+    {% if feedback_received %}
+    <p>Thank you for your feedback!</p>
+    {% endif %}
+</body>
+</html>
