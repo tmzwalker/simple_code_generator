@@ -70,5 +70,24 @@
     {% if feedback_received %}
     <p>Thank you for your feedback!</p>
     {% endif %}
+    
+    <h2>Previously Generated Snippets:</h2>
+    {% if snippets %}
+    <ul>
+        {% for snippet in snippets %}
+        <li>
+            <strong>Description:</strong> {{ snippet.description }}<br>
+            <strong>Code Snippet:</strong><br>
+            <pre>{{ snippet.code_snippet }}</pre>
+            <form action="/delete" method="post" style="display: inline;">
+                <input type="hidden" name="snippet_id" value="{{ snippet.id }}">
+                <button type="submit">Delete</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No snippets available.</p>
+    {% endif %}
 </body>
 </html>
