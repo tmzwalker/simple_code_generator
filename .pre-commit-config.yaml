@@ -1,0 +1,41 @@
+repos:
+-   repo: local
+    hooks:
+    - id: black
+      name: black style-check
+      entry: poetry run black
+      args: ['-l 119', '-t', 'py310', '--check', '.']
+      pass_filenames: false
+      language: system
+      stages: [commit]
+-   repo: local
+    hooks:
+    - id: flake8
+      name: flake8 style-check
+      entry: poetry run flake8
+      # generators.py only references generators, without using them
+      args: ['--ignore=E501,W503,E203',--max-line-length=79]
+      pass_filenames: false
+      language: system
+      stages: [commit]
+-   repo: local
+    hooks:
+    - id: mypy
+      name: mypy type-check
+      entry: poetry run mypy src
+      pass_filenames: false
+      always_run: true
+      verbose: true
+      language: system
+      types: [python]
+      stages: [commit]
+    - id: tests
+      name: run tests
+      entry: poetry run pytest 
+      args: ['./tests/']
+      pass_filenames: false
+      always_run: true
+      verbose: true
+      language: system
+      types: [python]
+      stages: [commit]

@@ -31,11 +31,11 @@ def generate_code(query: str, model_name: str = "gpt-3.5-turbo") -> str:
     - code_snippet: str: The generated code snippet.
     """
     # Initialize the LLMChain
-    llm = ChatOpenAI(model_name=model_name)
+    llm = ChatOpenAI(model_name=model_name)  # type: ignore
     llm_chain = LLMChain(prompt=prompt, llm=llm)
 
     # Generate code snippet using the LLMChain
-    code_snippet = llm_chain.invoke(query)
+    code_snippet = llm_chain.invoke({"description": query})
     return code_snippet["text"]
 
 
