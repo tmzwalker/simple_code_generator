@@ -1,5 +1,17 @@
 # Web Interface to Generate Code
 
+## Build and Run the Application
+
+To build the application, we can use the following command:
+```bash
+docker build -t code-generation-app --build-arg OPENAI_API_KEY=$OPENAI_API_KEY -f build/Dockerfile .
+```
+Make sure that you have the `OPENAI_API_KEY` environment variable set with your OpenAI API key.
+
+Then to run it, we can use the following command:
+```bash
+docker run -p 8000:8000 code-generation-app
+```
 ## Using Custom LLM
 
 ### Choosing a Model

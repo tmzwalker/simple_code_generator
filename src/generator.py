@@ -36,7 +36,7 @@ def generate_code(query: str, model_name: str = "gpt-3.5-turbo") -> str:
 
     # Generate code snippet using the LLMChain
     code_snippet = llm_chain.invoke(query)
-    return code_snippet
+    return code_snippet["text"]
 
 
 def calculate_token_cost(query: str, model_name: str = "gpt-3.5-turbo") -> str:
