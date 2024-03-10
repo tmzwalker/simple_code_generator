@@ -44,6 +44,23 @@ cd src
 uvicorn server:app --reload
 ```
 
+### Contributing to this project
+1. Clone the repository
+```bash
+git clone
+```
+
+2. Install the dependencies using one of the methods above, if not using poetry install the requirements-dev.txt
+```bash
+pip install -r requirements-dev.txt
+```
+
+3. Install the pre-commit hooks
+```bash
+poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
+# or
+pre-commit install --hook-type pre-commit --hook-type pre-push
+```
 
 ## Build and Run the Application
 
