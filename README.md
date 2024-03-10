@@ -1,5 +1,50 @@
 # Web Interface to Generate Code
 
+## Run the Code Locally
+
+### Run the program - With poetry
+1. Install [pyenv](https://realpython.com/intro-to-pyenv/#installing-pyenv)
+2. Install poetry 
+```bash
+curl -sSL https://install.python-poetry.org | python3 -
+```
+3. Download python 3.10.0 using pyenv
+```bash
+pyenv install 3.10.0
+```
+4. Create the poetry environment
+```bash
+pyenv global 3.10.0
+poetry env use 3.10.0
+```
+5. Install the dependencies
+```bash
+poetry install
+```
+6. Run the application
+```bash
+cd src
+poetry run uvicorn server:app --reload
+```
+
+### Prerequisites - Without poetry
+1. Install [Anaconda](https://docs.anaconda.com/free/anaconda/install/index.html) or [Miniconda](https://docs.anaconda.com/free/miniconda/miniconda-install/)
+2. Create a new environment
+```bash
+conda create -n code-generation-app python=3.10
+conda activate code-generation-app
+```
+3. Install the dependencies
+```bash
+pip install -r requirements.txt
+```
+4. Run the application
+```bash
+cd src
+uvicorn server:app --reload
+```
+
+
 ## Build and Run the Application
 
 To build the application, we can use the following command:

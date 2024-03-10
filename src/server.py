@@ -1,12 +1,14 @@
 import json
 import uuid
+import os
 from fastapi import FastAPI, Request, Form
 from fastapi.templating import Jinja2Templates
 from generator import generate_code
 
+BASE_PATH = os.path.dirname(os.path.abspath(__file__))
 
 app = FastAPI()
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory=f"{BASE_PATH}/templates")
 
 # Store generated snippets and feedback
 snippet_store = []
