@@ -1,4 +1,5 @@
 # for easier type hinting
+from langchain_community.callbacks.manager import get_openai_callback
 from langchain.chains import LLMChain
 from langchain_core.prompts import PromptTemplate
 from langchain_community.chat_models import ChatOpenAI
@@ -34,5 +35,19 @@ def generate_code(query: str, model_name: str = "gpt-3.5-turbo") -> str:
     llm_chain = LLMChain(prompt=prompt, llm=llm)
 
     # Generate code snippet using the LLMChain
-    code_snippet = llm_chain.run(query)
+    code_snippet = llm_chain.invoke(query)
     return code_snippet
+
+
+def calculate_token_cost(query: str, model_name: str = "gpt-3.5-turbo") -> str:
+    """
+    Calculate the token cost of generating a code snippet using the LLMChain.
+    args:
+    - query: str: The user's description of the code snippet they want to generate.
+    - model_name: str: The name of the language model to use.
+    return:
+    - token_cost: int: The token cost of generating the code snippet.
+    """
+    with get_openai_callback() as cb:
+        _ = generate_code(query, model_name)
+        return str(cb)
