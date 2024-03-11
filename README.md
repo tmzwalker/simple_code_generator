@@ -27,7 +27,7 @@ cd src
 poetry run uvicorn server:app --reload
 ```
 
-### Prerequisites - Without poetry
+### Run the program - Without poetry
 1. Install [Anaconda](https://docs.anaconda.com/free/anaconda/install/index.html) or [Miniconda](https://docs.anaconda.com/free/miniconda/miniconda-install/)
 2. Create a new environment
 ```bash
@@ -45,6 +45,7 @@ uvicorn server:app --reload
 ```
 
 ### Contributing to this project
+To contribute to this project, you will need to follow the poetry installation method above.
 1. Clone the repository
 ```bash
 git clone
@@ -58,9 +59,8 @@ pip install -r requirements-dev.txt
 3. Install the pre-commit hooks
 ```bash
 poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
-# or
-pre-commit install --hook-type pre-commit --hook-type pre-push
 ```
+Whenever you commit or push, the pre-commit hooks will run linters (black and flake8), type check (mypy), and unit tests.
 
 ## Build and Run the Application
 
