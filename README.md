@@ -95,3 +95,12 @@ Security in action
 ![Security in action](./prompt_security.png)
 
 For now, we don't use the chat prompt template, but we will use it in the future when the history of the conversation is needed.
+
+## Possible Improvement
+- Add a proper prompt storage, experiment, and feedback database system to store the feedback from the users.
+    - For example, [Wandb Prompt management](https://docs.wandb.ai/guides/prompts) for prompt feedback and experiment management.
+    - [PromptLayer](https://docs.promptlayer.com/introduction) for prompt storage and management.
+- Add a proper chat prompt template to use the history of the conversation.
+- Add a proper security system to detect prompt injection attempts.
+    - For example: [LLMGuard](https://llm-guard.com/) has some nice functions to detect prompt injection attempts.
+- Add a proper database for user's generated code snippets
