@@ -46,16 +46,12 @@ uvicorn server:app --reload
 
 ### Contributing to this project
 To contribute to this project, you will need to follow the poetry installation method above.
+This will ensure that you will use the same coding style, type checking, and unit tests.
 1. Clone the repository
 ```bash
 git clone
 ```
-
-2. Install the dependencies using one of the methods above, if not using poetry install the requirements-dev.txt
-```bash
-pip install -r requirements-dev.txt
-```
-
+2. Install the dependencies using the poetry method above.
 3. Install the pre-commit hooks
 ```bash
 poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
