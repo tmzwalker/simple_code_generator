@@ -103,4 +103,5 @@ For now, we don't use the chat prompt template, but we will use it in the future
 - Add a proper chat prompt template to use the history of the conversation.
 - Add a proper security system to detect prompt injection attempts.
     - For example: [LLMGuard](https://llm-guard.com/) has some nice functions to detect prompt injection attempts.
+    - [Deepeval](https://github.com/confident-ai/deepeval) to integrate security in the unit tests.
 - Add a proper database for user's generated code snippets
