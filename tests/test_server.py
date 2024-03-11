@@ -19,6 +19,15 @@ def test_generate():
     assert description in response.text
 
 
+def test_evaluate():
+    snippet_id = snippet_store[0]["id"]
+    code_snippet = snippet_store[0]["code_snippet"]
+    model = "gpt-3.5-turbo"
+    response = client.post("/evaluate", data={"snippet_id": snippet_id, "code_snippet": code_snippet, "model": model})
+    assert response.status_code == 200
+    assert "Code Evaluation:" in response.text
+
+
 def test_provide_feedback():
     description = snippet_store[0]["description"]
     code_snippet = snippet_store[0]["code_snippet"]

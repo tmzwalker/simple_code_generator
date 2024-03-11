@@ -3,7 +3,7 @@ import uuid
 import os
 from fastapi import FastAPI, Request, Form
 from fastapi.templating import Jinja2Templates
-from generator import generate_code
+from generator import generate_code, evaluate_code
 
 BASE_PATH = os.path.dirname(os.path.abspath(__file__))
 
@@ -36,6 +36,24 @@ def generate(request: Request, model: str = Form(...), description: str = Form(.
             "description": description,
             "model": model,
             "snippet_id": snippet_id,
+            "snippets": snippet_store,
+        },
+    )
+
+
+@app.post("/evaluate")
+def evaluate(request: Request, snippet_id: str = Form(...), code_snippet: str = Form(...), model: str = Form(...)):
+    # Evaluate the code snippet using the selected LLM model
+    evaluation = evaluate_code(code_snippet, model_name=model)
+
+    return templates.TemplateResponse(
+        "index.html",
+        {
+            "request": request,
+            "evaluation": evaluation,
+            "snippet_id": snippet_id,
+            "code_snippet": code_snippet,
+            "model": model,
             "snippets": snippet_store,
         },
     )

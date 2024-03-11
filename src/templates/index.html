@@ -53,6 +53,18 @@
     {% if code_snippet %}
     <h2>Generated Code Snippet:</h2>
     <pre>{{ code_snippet }}</pre>
+
+    <form action="/evaluate" method="post">
+        <input type="hidden" name="snippet_id" value="{{ snippet_id }}">
+        <input type="hidden" name="code_snippet" value="{{ code_snippet }}">
+        <input type="hidden" name="model" value="{{ model }}">
+        <button type="submit">Evaluate Code</button>
+    </form>
+    
+    {% if evaluation %}
+    <h2>Code Evaluation:</h2>
+    <pre>{{ evaluation }}</pre>
+    {% endif %}
     
     <form action="/feedback" method="post">
         <input type="hidden" name="description" value="{{ description }}">
