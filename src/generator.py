@@ -1,8 +1,24 @@
 # for easier type hinting
+from enum import Enum
 from langchain_community.callbacks.manager import get_openai_callback
 from langchain.chains import LLMChain
 from langchain_core.prompts import PromptTemplate
 from langchain_community.chat_models import ChatOpenAI
+
+
+class GenerationType(Enum):
+    CODE_GENERATION = "code_generation"
+    EVALUATION = "evaluation"
+
+    def __new__(cls, value):
+        obj = object.__new__(cls)
+        obj._value_ = value
+        return obj
+
+    @property
+    def input_variables(self):
+        input_variables = {"code_generation": ["description"], "evaluation": ["code_snippet"]}
+        return input_variables[self.value]
 
 
 # Define the prompt template
@@ -29,44 +45,32 @@ Please evaluate the above code snippet and provide feedback on its correctness, 
 Evaluation:
 """
 
-code_generation_prompt = PromptTemplate(template=code_generation_template, input_variables=["description"])
-evaluation_prompt = PromptTemplate(template=evaluation_template, input_variables=["code_snippet"])
+PROMPT_TEMPLATE: dict[GenerationType, str] = {
+    GenerationType.CODE_GENERATION: code_generation_template,
+    GenerationType.EVALUATION: evaluation_template,
+}
 
 
-def generate_code(query: str, model_name: str = "gpt-3.5-turbo") -> str:
+def llm_generate_text(query: str, generation_type: GenerationType, model_name: str = "gpt-3.5-turbo") -> str:
     """
     Generate code snippet using the LLMChain.
     args:
-    - query: str: The user's description of the code snippet they want to generate.
+    - query: str: input query for the LLM.
+    - generation_type: GenerationType: The type of generation to perform.
     - model_name: str: The name of the language model to use.
     return:
-    - code_snippet: str: The generated code snippet.
+    - generated_text: str: The generated text from LLM chain
     """
     # Initialize the LLMChain
+    prompt_template = PROMPT_TEMPLATE[generation_type]
+    prompt = PromptTemplate(template=prompt_template, input_variables=generation_type.input_variables)
     llm = ChatOpenAI(model_name=model_name)  # type: ignore
-    llm_chain = LLMChain(prompt=code_generation_prompt, llm=llm)
+    llm_chain = LLMChain(prompt=prompt, llm=llm)
 
     # Generate code snippet using the LLMChain
-    code_snippet = llm_chain.invoke({"description": query})
-    return code_snippet["text"]
-
-
-def evaluate_code(code_snippet: str, model_name: str = "gpt-3.5-turbo") -> str:
-    """
-    Evaluate the generated code snippet using the LLMChain.
-    args:
-    - code_snippet: str: The generated code snippet to evaluate.
-    - model_name: str: The name of the language model to use.
-    return:
-    - evaluation: str: The evaluation of the code snippet.
-    """
-    # Initialize the LLMChain for evaluation
-    llm = ChatOpenAI(model_name=model_name)  # type: ignore
-    evaluation_chain = LLMChain(prompt=evaluation_prompt, llm=llm)
-
-    # Evaluate the code snippet using the LLMChain
-    evaluation = evaluation_chain.invoke({"code_snippet": code_snippet})
-    return evaluation["text"]
+    chain_input = {generation_type.input_variables[0]: query}
+    generated_text = llm_chain.invoke(chain_input)
+    return generated_text["text"]
 
 
 def calculate_token_cost(query: str, model_name: str = "gpt-3.5-turbo") -> str:
@@ -79,5 +83,5 @@ def calculate_token_cost(query: str, model_name: str = "gpt-3.5-turbo") -> str:
     - token_cost: int: The token cost of generating the code snippet.
     """
     with get_openai_callback() as cb:
-        _ = generate_code(query, model_name)
+        _ = llm_generate_text(query, GenerationType.CODE_GENERATION, model_name)
         return str(cb)

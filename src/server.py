@@ -3,7 +3,7 @@ import uuid
 import os
 from fastapi import FastAPI, Request, Form
 from fastapi.templating import Jinja2Templates
-from generator import generate_code, evaluate_code
+from generator import llm_generate_text, GenerationType
 
 BASE_PATH = os.path.dirname(os.path.abspath(__file__))
 
@@ -23,7 +23,9 @@ def home(request: Request):
 @app.post("/generate")
 def generate(request: Request, model: str = Form(...), description: str = Form(...)):
     # Generate code snippet using the selected LLM model
-    code_snippet = generate_code(description, model_name=model)
+    code_snippet = llm_generate_text(
+        query=description, generation_type=GenerationType.CODE_GENERATION, model_name=model
+    )
 
     # Store the generated snippet
     snippet_id = uuid.uuid4().__str__()
@@ -44,7 +46,7 @@ def generate(request: Request, model: str = Form(...), description: str = Form(.
 @app.post("/evaluate")
 def evaluate(request: Request, snippet_id: str = Form(...), code_snippet: str = Form(...), model: str = Form(...)):
     # Evaluate the code snippet using the selected LLM model
-    evaluation = evaluate_code(code_snippet, model_name=model)
+    evaluation = llm_generate_text(query=code_snippet, generation_type=GenerationType.EVALUATION, model_name=model)
 
     return templates.TemplateResponse(
         "index.html",
@@ -83,7 +85,8 @@ def provide_feedback(
         json.dump(feedback_store, file, indent=4)
 
     return templates.TemplateResponse(
-        "index.html", {"request": request, "feedback_received": True, "snippets": snippet_store}
+        "index.html",
+        {"request": request, "description": description, "feedback_received": True, "snippets": snippet_store},
     )
 
 
